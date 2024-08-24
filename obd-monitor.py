@@ -7,7 +7,7 @@ poll_interval = 1.0
 connection = None
 metrics = {}
 info_metrics = ["pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
-ignore_metrics = ["calibration_id"]
+ignore_metrics = ["calibration_id", "status", "status_drive_cycle"]
 
 """
 Monitor a single OBDII command as a Prometheus metric.
@@ -53,8 +53,7 @@ class CommandMetric():
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             for i in self.response.value:
                 self.metric.labels(event=i).set(1)
-        # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
-        # elif self.name in info_metrics:
+        # if isinstance(self.response.value, obd.Unit.Status):
         #     if self.metric is None:
         #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
         #     self.metric.info({'value': str(self.response.value)})
