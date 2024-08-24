@@ -6,7 +6,7 @@ http_port = 8000
 poll_interval = 1.0
 connection = None
 metrics = {}
-info_metrics = ["pids_9a", "pids_b", "calibration_id"]
+info_metrics = ["pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
 
 """
 Monitor a single OBDII command as a Prometheus metric.
@@ -51,7 +51,7 @@ class CommandMetric():
         elif self.name in info_metrics:
             if self.metric is None:
                 self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
-            self.metric.info({'value': str(self.response.value)})
+            self.metric.info({'value': self.response.value})
         else:
             log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
 
