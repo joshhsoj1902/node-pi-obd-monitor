@@ -53,8 +53,12 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             for counter, val in enumerate(self.response.value):
+                if val is None:
+                    continue
                 if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
                     for counter2, val2 in enumerate(val):
+                        if val is None:
+                            continue
                         if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
                             self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
                         else:
