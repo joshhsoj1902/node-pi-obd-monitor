@@ -47,6 +47,9 @@ class CommandMetric():
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(1 if self.response.value else 0)
         # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
+        else:
+            log.warning('skipping recording metric %s' % self.name)
+
 
 """
 Ensure that the `connection` global is actually connected, and instatiate `metric` objects.
