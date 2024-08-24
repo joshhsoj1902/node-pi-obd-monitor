@@ -56,7 +56,7 @@ class CommandMetric():
                 # if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
                 #     self.metric.labels(iteration=counter event=len(i)).set(1)
                 # elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, (str, bytes)):
-                self.metric.labels(event=str(i)).set(1)
+                self.metric.labels(event=str(val)).set(1)
         # if isinstance(self.response.value, obd.Unit.Status):
         #     if self.metric is None:
         #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
