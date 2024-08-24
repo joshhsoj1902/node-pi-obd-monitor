@@ -51,19 +51,19 @@ class CommandMetric():
         elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, (str, bytes)):
             log.warning('Found an array metric {0}. Value was {1}'.format(self.name, self.response.value))
             if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit),['iteration', 'event'])
             for counter, val in enumerate(self.response.value):
                 if val is None:
                     continue
-                if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
-                    for counter2, val2 in enumerate(val):
-                        if val is None:
-                            continue
-                        if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
-                            self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
-                        else:
-                            self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
-                else:
+                # if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
+                #     for counter2, val2 in enumerate(val):
+                #         if val is None:
+                #             continue
+                #         if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
+                #             self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
+                #         else:
+                #             self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
+                # else:
                     self.metric.labels(iteration=counter, event=str(val)).set(1)
         # if isinstance(self.response.value, obd.Unit.Status):
         #     if self.metric is None:
