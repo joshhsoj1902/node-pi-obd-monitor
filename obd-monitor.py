@@ -7,7 +7,7 @@ poll_interval = 1.0
 connection = None
 metrics = {}
 info_metrics = ["mids_a", "pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
-ignore_metrics = ["calibration_id", "status", "status_drive_cycle"]
+ignore_metrics = ["calibration_id", "status", "status_drive_cycle", "vin"]
 
 """
 Monitor a single OBDII command as a Prometheus metric.
