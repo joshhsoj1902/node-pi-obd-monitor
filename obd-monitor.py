@@ -38,10 +38,10 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(self.response.value.magnitude)
-        # elif isinstance(self.response.value, str):
-        #     if self.metric is None:
-        #         self.metric = Info(self.metric_prefix + self.name, type(self.response.value))
-        #     self.metric.info({'value': str(self.response.value)})
+        elif isinstance(self.response.value, str):
+            if self.metric is None:
+                self.metric = Info(self.metric_prefix + self.name, type(self.response.value))
+            self.metric.info({'value': str(self.response.value)})
         elif isinstance(self.response.value, bool):
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
