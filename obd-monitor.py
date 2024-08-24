@@ -7,6 +7,7 @@ poll_interval = 1.0
 connection = None
 metrics = {}
 info_metrics = ["pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
+ignore_metrics = ["calibration_id"]
 
 """
 Monitor a single OBDII command as a Prometheus metric.
@@ -39,7 +40,7 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(self.response.value.magnitude)
-        elif isinstance(self.response.value, str):
+        elif isinstance(self.response.value, str) or self.name in info_metrics:
             if self.metric is None:
                 self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
             self.metric.info({'value': str(self.response.value)})
@@ -48,10 +49,10 @@ class CommandMetric():
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(1 if self.response.value else 0)
         # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
-        elif self.name in info_metrics:
-            if self.metric is None:
-                self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
-            self.metric.info({'value': self.response.value})
+        # elif self.name in info_metrics:
+        #     if self.metric is None:
+        #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+        #     self.metric.info({'value': str(self.response.value)})
         else:
             log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
 
@@ -69,6 +70,8 @@ def connect():
         return False
     metrics = {}
     for command in connection.supported_commands:
+        if command.name in ignore_metrics:
+            continue
         metric = CommandMetric(command)
         metrics[metric.name] = metric
 
