@@ -39,7 +39,7 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(self.response.value.magnitude)
-        elif isinstance(self.response.value, str) or self.name in info_metrics:
+        elif isinstance(self.response.value, str):
             if self.metric is None:
                 self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
             self.metric.info({'value': str(self.response.value)})
@@ -48,6 +48,10 @@ class CommandMetric():
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(1 if self.response.value else 0)
         # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
+        elif self.name in info_metrics:
+            if self.metric is None:
+                self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+            self.metric.info({'value': str(self.response.value)})
         else:
             log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
 
