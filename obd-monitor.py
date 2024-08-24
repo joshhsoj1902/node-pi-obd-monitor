@@ -16,6 +16,7 @@ class CommandMetric():
         self.response = None
         self.metric = None
         self.unit = None
+        self.desc = command.desc
         self.name = command.name.lower()
         self.metric_prefix = metric_prefix
         self.log = logging.getLogger('obd.monitor.' + self.name)
@@ -35,7 +36,7 @@ class CommandMetric():
 
         if isinstance(self.response.value, obd.Unit.Quantity):
             if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, self.unit)
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(self.response.value.magnitude)
         # elif isinstance(self.response.value, str):
         #     if self.metric is None:
@@ -43,7 +44,7 @@ class CommandMetric():
         #     self.metric.info({'value': str(self.response.value)})
         elif isinstance(self.response.value, bool):
             if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, self.unit)
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit)
             self.metric.set(1 if self.response.value else 0)
         # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
 
