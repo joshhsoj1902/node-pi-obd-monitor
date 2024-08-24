@@ -48,6 +48,11 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(1 if self.response.value else 0)
+        elif isinstance(self.response.value, []):
+            if self.metric is None:
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
+            for i in self.response.value:
+                self.metric.labels(event=i).set(1)
         # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
         # elif self.name in info_metrics:
         #     if self.metric is None:
@@ -56,7 +61,7 @@ class CommandMetric():
         else:
             log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
 
-
+c.labels(method='get', endpoint='/').inc()
 """
 Ensure that the `connection` global is actually connected, and instatiate `metric` objects.
 """
