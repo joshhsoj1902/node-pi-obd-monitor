@@ -48,7 +48,7 @@ class CommandMetric():
             self.metric.set(1 if self.response.value else 0)
         # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
         else:
-            log.warning('skipping recording metric %s' % self.name)
+            log.warning('skipping recording metric %s. Value was %s' % self.name, self.response.value)
 
 
 """
