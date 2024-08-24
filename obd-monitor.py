@@ -61,7 +61,6 @@ class CommandMetric():
         else:
             log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
 
-c.labels(method='get', endpoint='/').inc()
 """
 Ensure that the `connection` global is actually connected, and instatiate `metric` objects.
 """
