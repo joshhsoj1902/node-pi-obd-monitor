@@ -6,7 +6,7 @@ http_port = 8000
 poll_interval = 1.0
 connection = None
 metrics = {}
-info_metrics = ["pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
+info_metrics = ["mids_a", "pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
 ignore_metrics = ["calibration_id", "status", "status_drive_cycle"]
 
 """
@@ -73,7 +73,7 @@ def connect():
         return False
     metrics = {}
     for command in connection.supported_commands:
-        if command.name in ignore_metrics:
+        if command.name.lower() in ignore_metrics:
             continue
         metric = CommandMetric(command)
         metrics[metric.name] = metric
