@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, sys, obd, logging, time
+import os, sys, obd, logging, time, collections.abc
 from prometheus_client import start_http_server, Summary, Gauge, Info
 
 http_port = 8000
@@ -48,7 +48,7 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(1 if self.response.value else 0)
-        elif isinstance(self.response.value, []):
+        elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, unicode):
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             for i in self.response.value:
