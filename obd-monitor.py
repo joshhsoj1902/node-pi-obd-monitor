@@ -53,10 +53,14 @@ class CommandMetric():
             if self.metric is None:
                 self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             for counter, val in enumerate(self.response.value):
-                # if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
-                #     self.metric.labels(iteration=counter event=len(i)).set(1)
-                # elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, (str, bytes)):
-                self.metric.labels(event=str(val)).set(1)
+                if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
+                    for counter2, val2 in enumerate(val):
+                        if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
+                            self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
+                        else:
+                            self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
+                else:
+                    self.metric.labels(iteration=counter, event=str(val)).set(1)
         # if isinstance(self.response.value, obd.Unit.Status):
         #     if self.metric is None:
         #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
