@@ -25,52 +25,62 @@ class CommandMetric():
         self.log.info('metric initialized')
 
     def update(self):
-        self.response = connection.query(self.command)
-        if self.response.unit:
-            if not self.unit:
-                self.unit = self.response.unit
-            elif self.unit != self.response.unit:
-                raise Exception('{0} unit changed from {1} to {2}'.format(
-                    self.name, self.unit, self.response.unit))
+        try:
+            self.response = connection.query(self.command)
+            if self.response.unit:
+                if not self.unit:
+                    self.unit = self.response.unit
+                elif self.unit != self.response.unit:
+                    raise Exception('{0} unit changed from {1} to {2}'.format(
+                        self.name, self.unit, self.response.unit))
 
-        if self.response.value is None:
-            return
+            if self.response.value is None:
+                return
 
-        if isinstance(self.response.value, obd.Unit.Quantity):
-            if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
-            self.metric.set(self.response.value.magnitude)
-        elif isinstance(self.response.value, str) or self.name in info_metrics:
-            if self.metric is None:
-                self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
-            self.metric.info({'value': str(self.response.value)})
-        elif isinstance(self.response.value, bool):
-            if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
-            self.metric.set(1 if self.response.value else 0)
-        elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, (str, bytes)):
-            log.warning('Found an array metric {0}. Value was {1}'.format(self.name, self.response.value))
-            if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit),['iteration', 'event'])
-            for counter, val in enumerate(self.response.value):
-                if val is None:
-                    continue
-                # if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
-                #     for counter2, val2 in enumerate(val):
-                #         if val is None:
-                #             continue
-                #         if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
-                #             self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
-                #         else:
-                #             self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
-                # else:
-                self.metric.labels(iteration=counter, event=str(val)).set(1)
-        # if isinstance(self.response.value, obd.Unit.Status):
-        #     if self.metric is None:
-        #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
-        #     self.metric.info({'value': str(self.response.value)})
-        else:
-            log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
+            if isinstance(self.response.value, obd.Unit.Quantity):
+                if self.metric is None:
+                    self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
+                self.metric.set(self.response.value.magnitude)
+            elif isinstance(self.response.value, str) or self.name in info_metrics:
+                if self.metric is None:
+                    self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+                self.metric.info({'value': str(self.response.value)})
+            elif isinstance(self.response.value, bool):
+                if self.metric is None:
+                    self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
+                self.metric.set(1 if self.response.value else 0)
+            elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, (str, bytes)):
+                log.warning('Found an array metric {0}. Value was {1}'.format(self.name, self.response.value))
+                if self.metric is None:
+                    self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit),['iteration', 'event'])
+                for counter, val in enumerate(self.response.value):
+                    if val is None:
+                        continue
+                    # if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
+                    #     for counter2, val2 in enumerate(val):
+                    #         if val is None:
+                    #             continue
+                    #         if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
+                    #             self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
+                    #         else:
+                    #             self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
+                    # else:
+                    self.metric.labels(iteration=counter, event=str(val)).set(1)
+            # if isinstance(self.response.value, obd.Unit.Status):
+            #     if self.metric is None:
+            #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+            #     self.metric.info({'value': str(self.response.value)})
+            else:
+                log.warning('Unhandled Metric recording as info metric {0}. Value was {1}'.format(self.name, self.response.value))
+                try:
+                    if self.metric is None:
+                        self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+                    self.metric.info({'value': str(self.response.value)})
+                except:
+                    log.warning('failed recording unhandled Metric as info {0}. Value was {1}'.format(self.name, self.response.value))
+        except:
+            log.error('Error recording metric for {0}. Value was {1}'.format(self.name, self.response.value))
+
 
 """
 Ensure that the `connection` global is actually connected, and instatiate `metric` objects.
