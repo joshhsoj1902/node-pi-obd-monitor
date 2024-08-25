@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-import os, sys, obd, logging, time
+import os, sys, obd, logging, time, collections.abc
 from prometheus_client import start_http_server, Summary, Gauge, Info
 
 http_port = 8000
 poll_interval = 1.0
 connection = None
 metrics = {}
+info_metrics = ["mids_a", "pids_9a", "pids_a", "pids_b", "pids_c", "calibration_id"]
+ignore_metrics = ["calibration_id", "status", "status_drive_cycle", "vin"]
 
 """
 Monitor a single OBDII command as a Prometheus metric.
@@ -16,6 +18,7 @@ class CommandMetric():
         self.response = None
         self.metric = None
         self.unit = None
+        self.desc = command.desc
         self.name = command.name.lower()
         self.metric_prefix = metric_prefix
         self.log = logging.getLogger('obd.monitor.' + self.name)
@@ -35,17 +38,39 @@ class CommandMetric():
 
         if isinstance(self.response.value, obd.Unit.Quantity):
             if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, self.unit)
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(self.response.value.magnitude)
-        # elif isinstance(self.response.value, str):
-        #     if self.metric is None:
-        #         self.metric = Info(self.metric_prefix + self.name, type(self.response.value))
-        #     self.metric.info({'value': str(self.response.value)})
+        elif isinstance(self.response.value, str) or self.name in info_metrics:
+            if self.metric is None:
+                self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+            self.metric.info({'value': str(self.response.value)})
         elif isinstance(self.response.value, bool):
             if self.metric is None:
-                self.metric = Gauge(self.metric_prefix + self.name, self.unit)
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit))
             self.metric.set(1 if self.response.value else 0)
-        # or isinstance(self.response.value, list) or isinstance(self.response.value, tuple)
+        elif isinstance(self.response.value, collections.abc.Sequence) and not isinstance(self.response.value, (str, bytes)):
+            log.warning('Found an array metric {0}. Value was {1}'.format(self.name, self.response.value))
+            if self.metric is None:
+                self.metric = Gauge(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, self.unit),['iteration', 'event'])
+            for counter, val in enumerate(self.response.value):
+                if val is None:
+                    continue
+                # if isinstance(val, collections.abc.Sequence) and not isinstance(val, (str, bytes)):
+                #     for counter2, val2 in enumerate(val):
+                #         if val is None:
+                #             continue
+                #         if isinstance(val2, collections.abc.Sequence) and not isinstance(val2, (str, bytes)):
+                #             self.metric.labels(iteration=counter, iteration2=counter2, event=len(val2)).set(1)
+                #         else:
+                #             self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
+                # else:
+                    self.metric.labels(iteration=counter, event=str(val)).set(1)
+        # if isinstance(self.response.value, obd.Unit.Status):
+        #     if self.metric is None:
+        #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
+        #     self.metric.info({'value': str(self.response.value)})
+        else:
+            log.warning('skipping recording metric {0}. Value was {1}'.format(self.name, self.response.value))
 
 """
 Ensure that the `connection` global is actually connected, and instatiate `metric` objects.
@@ -60,6 +85,8 @@ def connect():
         return False
     metrics = {}
     for command in connection.supported_commands:
+        if command.name.lower() in ignore_metrics:
+            continue
         metric = CommandMetric(command)
         metrics[metric.name] = metric
 
