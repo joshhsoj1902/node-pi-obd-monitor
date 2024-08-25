@@ -64,7 +64,7 @@ class CommandMetric():
                 #         else:
                 #             self.metric.labels(iteration=counter, iteration2=counter2, event=str(val2)).set(1)
                 # else:
-                    self.metric.labels(iteration=counter, event=str(val)).set(1)
+                self.metric.labels(iteration=counter, event=str(val)).set(1)
         # if isinstance(self.response.value, obd.Unit.Status):
         #     if self.metric is None:
         #         self.metric = Info(self.metric_prefix + self.name, '{0} ({1})'.format(self.desc, type(self.response.value)))
