@@ -114,7 +114,7 @@ if __name__ == '__main__':
     log.warning('starting prometheus on port %s' % http_port)
     start_http_server(http_port) # prometheus
 
-    supported_commands_metric = Gauge(self.metric_prefix + 'supported_commands', 'which commands are supported by the vehicle',['command', 'desc'])
+    supported_commands_metric = Gauge('obd_' + 'supported_commands', 'which commands are supported by the vehicle',['command', 'desc'])
 
     # Continuously poll the metrics.
     while True:
