@@ -101,7 +101,7 @@ def connect():
             continue
 
         supported_commands_metric.labels(command=command.name.lower(), desc=command.desc)
-        supported_commands_metric.inc()
+        supported_commands_metric.inc(1)
 
         # if command.name.lower() in allowed_metrics:
         #     metric = CommandMetric(command)
