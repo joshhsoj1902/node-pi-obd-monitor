@@ -3,7 +3,7 @@ import os, sys, obd, logging, time, collections.abc
 from prometheus_client import start_http_server, Summary, Gauge, Info
 
 http_port = 8000
-poll_interval = 1.0
+poll_interval = 2.5
 connection = None
 metrics = {}
 info_metrics = ["mids_a", "mids_b", "mids_c", "mids_d", "mids_e", "mids_f", "pids_9a", "pids_a", "pids_b", "pids_c"]
@@ -102,9 +102,9 @@ def connect():
 
         supported_commands_metric.labels(command=command.name.lower(), desc=command.desc).inc(1)
 
-        # if command.name.lower() in allowed_metrics:
-        #     metric = CommandMetric(command)
-        #     metrics[metric.name] = metric
+        if command.name.lower() in allowed_metrics:
+            metric = CommandMetric(command)
+            metrics[metric.name] = metric
 
 if __name__ == '__main__':
     obd.logger.setLevel(obd.logging.INFO)
