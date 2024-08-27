@@ -9,6 +9,7 @@ metrics = {}
 info_metrics = ["mids_a", "mids_b", "mids_c", "mids_d", "mids_e", "mids_f", "pids_9a", "pids_a", "pids_b", "pids_c"]
 ignore_metrics = ["clear_dtc", "calibration_id", "status", "status_drive_cycle", "vin"]
 allowed_metrics = ["intake_temp"]
+supported_commands_metric = None
 
 """
 Monitor a single OBDII command as a Prometheus metric.
@@ -24,7 +25,6 @@ class CommandMetric():
         self.metric_prefix = metric_prefix
         self.log = logging.getLogger('obd.monitor.' + self.name)
         self.log.info('metric initialized')
-        self.supported_commands_metric
 
     def update(self):
         try:
@@ -100,8 +100,8 @@ def connect():
         if command.name.lower() in ignore_metrics:
             continue
 
-        self.supported_commands_metric.labels(command=command.name.lower(), desc=command.desc)
-        self.supported_commands_metric.inc()
+        supported_commands_metric.labels(command=command.name.lower(), desc=command.desc)
+        supported_commands_metric.inc()
 
         # if command.name.lower() in allowed_metrics:
         #     metric = CommandMetric(command)
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     log.warning('starting prometheus on port %s' % http_port)
     start_http_server(http_port) # prometheus
 
-    self.supported_commands_metric = Gauge(self.metric_prefix + 'supported_commands', 'which commands are supported by the vehicle',['command', 'desc'])
+    supported_commands_metric = Gauge(self.metric_prefix + 'supported_commands', 'which commands are supported by the vehicle',['command', 'desc'])
 
     # Continuously poll the metrics.
     while True:
