@@ -8,7 +8,42 @@ connection = None
 metrics = {}
 info_metrics = ["mids_a", "mids_b", "mids_c", "mids_d", "mids_e", "mids_f", "pids_9a", "pids_a", "pids_b", "pids_c"]
 ignore_metrics = ["clear_dtc", "calibration_id", "status", "status_drive_cycle", "vin"]
-allowed_metrics = ["intake_temp"]
+allowed_metrics = [
+    "elm_voltage",
+    "engine_load",
+    "run_time",
+    "fuel_type",
+    "fuel_level",
+    "control_module_voltage",
+    "timing_advance",
+    "intake_pressure",
+    "evap_vapor_pressure",
+    "relative_throttle_pos",
+    "absolute_load",
+    "rpm",
+    "fuel_status",
+    "throttle_actuator",
+    "accelerator_pos_d",
+    "intake_temp",
+    "throttle_pos_b",
+    "cvn",
+    "long_fuel_trim_1",
+    "throttle_pos",
+    "coolant_temp",
+    "catalyst_temp_b1s1",
+    "distance_w_mil",
+    "maf",
+    "evaporative_purge",
+    "commanded_equiv_ratio",
+    "barometric_pressure",
+    "speed",
+    "obd_compliance",
+    "accelerator_pos_e",
+    "ambiant_air_temp",
+    "elm_version",
+    "short_fuel_trim_1",
+    "fuel_rail_pressure_abs"
+    ]
 supported_commands_metric = None
 
 """

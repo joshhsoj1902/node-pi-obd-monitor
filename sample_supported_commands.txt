@@ -1,0 +1,103 @@
+obd_supported_commands{command="get_dtc",desc="Get DTCs"} 1.0
+obd_supported_commands{command="get_current_dtc",desc="Get DTCs from the current/last driving cycle"} 1.0
+obd_supported_commands{command="distance_since_dtc_clear",desc="Distance traveled since codes cleared"} 1.0
+obd_supported_commands{command="warmups_since_dtc_clear",desc="Number of warm-ups since codes cleared"} 1.0
+obd_supported_commands{command="freeze_dtc",desc="DTC that triggered the freeze frame"} 1.0
+
+obd_supported_commands{command="elm_voltage",desc="Voltage detected by OBD-II adapter"} 1.0
+obd_supported_commands{command="engine_load",desc="Calculated Engine Load"} 1.0
+obd_supported_commands{command="run_time",desc="Engine Run Time"} 1.0
+obd_supported_commands{command="fuel_type",desc="Fuel Type"} 1.0
+obd_supported_commands{command="fuel_level",desc="Fuel Level Input"} 1.0
+obd_supported_commands{command="control_module_voltage",desc="Control module voltage"} 1.0
+obd_supported_commands{command="timing_advance",desc="Timing Advance"} 1.0
+obd_supported_commands{command="intake_pressure",desc="Intake Manifold Pressure"} 1.0
+obd_supported_commands{command="evap_vapor_pressure",desc="Evaporative system vapor pressure"} 1.0
+obd_supported_commands{command="relative_throttle_pos",desc="Relative throttle position"} 1.0
+obd_supported_commands{command="absolute_load",desc="Absolute load value"} 1.0
+obd_supported_commands{command="rpm",desc="Engine RPM"} 1.0
+obd_supported_commands{command="fuel_status",desc="Fuel System Status"} 1.0
+obd_supported_commands{command="throttle_actuator",desc="Commanded throttle actuator"} 1.0
+obd_supported_commands{command="accelerator_pos_d",desc="Accelerator pedal position D"} 1.0
+obd_supported_commands{command="intake_temp",desc="Intake Air Temp"} 1.0
+obd_supported_commands{command="throttle_pos_b",desc="Absolute throttle position B"} 1.0
+obd_supported_commands{command="cvn",desc="Calibration Verification Numbers"} 1.0
+obd_supported_commands{command="long_fuel_trim_1",desc="Long Term Fuel Trim - Bank 1"} 1.0
+obd_supported_commands{command="throttle_pos",desc="Throttle Position"} 1.0
+obd_supported_commands{command="coolant_temp",desc="Engine Coolant Temperature"} 1.0
+obd_supported_commands{command="catalyst_temp_b1s1",desc="Catalyst Temperature: Bank 1 - Sensor 1"} 1.0
+obd_supported_commands{command="distance_w_mil",desc="Distance Traveled with MIL on"} 1.0
+obd_supported_commands{command="maf",desc="Air Flow Rate (MAF)"} 1.0
+obd_supported_commands{command="evaporative_purge",desc="Commanded Evaporative Purge"} 1.0
+obd_supported_commands{command="commanded_equiv_ratio",desc="Commanded equivalence ratio"} 1.0
+obd_supported_commands{command="barometric_pressure",desc="Barometric Pressure"} 1.0
+obd_supported_commands{command="speed",desc="Vehicle Speed"} 1.0
+obd_supported_commands{command="obd_compliance",desc="OBD Standards Compliance"} 1.0
+obd_supported_commands{command="accelerator_pos_e",desc="Accelerator pedal position E"} 1.0
+obd_supported_commands{command="ambiant_air_temp",desc="Ambient air temperature"} 1.0
+obd_supported_commands{command="elm_version",desc="ELM327 version string"} 1.0
+obd_supported_commands{command="short_fuel_trim_1",desc="Short Term Fuel Trim - Bank 1"} 1.0
+obd_supported_commands{command="fuel_rail_pressure_abs",desc="Fuel rail pressure (absolute)"} 1.0
+
+obd_supported_commands{command="o2_sensors",desc="O2 Sensors Present"} 1.0
+obd_supported_commands{command="o2_b1s2",desc="O2: Bank 1 - Sensor 2 Voltage"} 1.0
+obd_supported_commands{command="o2_s1_wr_current",desc="02 Sensor 1 WR Lambda Current"} 1.0
+obd_supported_commands{command="short_o2_trim_b1",desc="Short term secondary O2 trim - Bank 1"} 1.0
+obd_supported_commands{command="long_o2_trim_b1",desc="Long term secondary O2 trim - Bank 1"} 1.0
+
+obd_supported_commands{command="monitor_misfire_cylinder_1",desc="Misfire Cylinder 1 Data"} 1.0
+obd_supported_commands{command="monitor_misfire_cylinder_2",desc="Misfire Cylinder 2 Data"} 1.0
+obd_supported_commands{command="monitor_misfire_cylinder_3",desc="Misfire Cylinder 3 Data"} 1.0
+obd_supported_commands{command="monitor_misfire_cylinder_4",desc="Misfire Cylinder 4 Data"} 1.0
+obd_supported_commands{command="monitor_evap_040",desc="EVAP Monitor (0.040\")"} 1.0
+obd_supported_commands{command="monitor_evap_090",desc="EVAP Monitor (0.090\")"} 1.0
+obd_supported_commands{command="monitor_o2_b1s1",desc="O2 Sensor Monitor Bank 1 - Sensor 1"} 1.0
+obd_supported_commands{command="monitor_o2_b1s2",desc="O2 Sensor Monitor Bank 1 - Sensor 2"} 1.0
+obd_supported_commands{command="monitor_purge_flow",desc="Purge Flow Monitor"} 1.0
+obd_supported_commands{command="monitor_o2_heater_b1s1",desc="O2 Sensor Heater Monitor Bank 1 - Sensor 1"} 1.0
+obd_supported_commands{command="monitor_o2_heater_b1s2",desc="O2 Sensor Heater Monitor Bank 1 - Sensor 2"} 1.0
+obd_supported_commands{command="monitor_catalyst_b1",desc="Catalyst Monitor Bank 1"} 1.0
+obd_supported_commands{command="monitor_vvt_b1",desc="VVT Monitor Bank 1"} 1.0
+
+
+obd_supported_commands{command="dtc_fuel_rail_pressure_abs",desc="DTC Fuel rail pressure (absolute)"} 1.0
+obd_supported_commands{command="dtc_absolute_load",desc="DTC Absolute load value"} 1.0
+obd_supported_commands{command="dtc_throttle_pos",desc="DTC Throttle Position"} 1.0
+obd_supported_commands{command="dtc_fuel_type",desc="DTC Fuel Type"} 1.0
+obd_supported_commands{command="dtc_barometric_pressure",desc="DTC Barometric Pressure"} 1.0
+obd_supported_commands{command="dtc_o2_s1_wr_current",desc="DTC 02 Sensor 1 WR Lambda Current"} 1.0
+obd_supported_commands{command="dtc_intake_pressure",desc="DTC Intake Manifold Pressure"} 1.0
+obd_supported_commands{command="dtc_distance_w_mil",desc="DTC Distance Traveled with MIL on"} 1.0
+obd_supported_commands{command="dtc_ambiant_air_temp",desc="DTC Ambient air temperature"} 1.0
+obd_supported_commands{command="dtc_rpm",desc="DTC Engine RPM"} 1.0
+obd_supported_commands{command="dtc_warmups_since_dtc_clear",desc="DTC Number of warm-ups since codes cleared"} 1.0
+obd_supported_commands{command="dtc_distance_since_dtc_clear",desc="DTC Distance traveled since codes cleared"} 1.0
+obd_supported_commands{command="dtc_accelerator_pos_e",desc="DTC Accelerator pedal position E"} 1.0
+obd_supported_commands{command="dtc_throttle_actuator",desc="DTC Commanded throttle actuator"} 1.0
+obd_supported_commands{command="dtc_obd_compliance",desc="DTC OBD Standards Compliance"} 1.0
+obd_supported_commands{command="dtc_o2_b1s2",desc="DTC O2: Bank 1 - Sensor 2 Voltage"} 1.0
+obd_supported_commands{command="dtc_coolant_temp",desc="DTC Engine Coolant Temperature"} 1.0
+obd_supported_commands{command="dtc_throttle_pos_b",desc="DTC Absolute throttle position B"} 1.0
+obd_supported_commands{command="dtc_o2_sensors",desc="DTC O2 Sensors Present"} 1.0
+obd_supported_commands{command="dtc_fuel_level",desc="DTC Fuel Level Input"} 1.0
+obd_supported_commands{command="dtc_relative_throttle_pos",desc="DTC Relative throttle position"} 1.0
+obd_supported_commands{command="dtc_evaporative_purge",desc="DTC Commanded Evaporative Purge"} 1.0
+obd_supported_commands{command="dtc_evap_vapor_pressure",desc="DTC Evaporative system vapor pressure"} 1.0
+obd_supported_commands{command="dtc_control_module_voltage",desc="DTC Control module voltage"} 1.0
+obd_supported_commands{command="dtc_engine_load",desc="DTC Calculated Engine Load"} 1.0
+obd_supported_commands{command="dtc_speed",desc="DTC Vehicle Speed"} 1.0
+obd_supported_commands{command="dtc_commanded_equiv_ratio",desc="DTC Commanded equivalence ratio"} 1.0
+obd_supported_commands{command="dtc_timing_advance",desc="DTC Timing Advance"} 1.0
+obd_supported_commands{command="dtc_fuel_status",desc="DTC Fuel System Status"} 1.0
+obd_supported_commands{command="dtc_intake_temp",desc="DTC Intake Air Temp"} 1.0
+obd_supported_commands{command="dtc_catalyst_temp_b1s1",desc="DTC Catalyst Temperature: Bank 1 - Sensor 1"} 1.0
+obd_supported_commands{command="dtc_run_time",desc="DTC Engine Run Time"} 1.0
+obd_supported_commands{command="dtc_accelerator_pos_d",desc="DTC Accelerator pedal position D"} 1.0
+obd_supported_commands{command="dtc_freeze_dtc",desc="DTC DTC that triggered the freeze frame"} 1.0
+obd_supported_commands{command="dtc_long_fuel_trim_1",desc="DTC Long Term Fuel Trim - Bank 1"} 1.0
+obd_supported_commands{command="dtc_short_fuel_trim_1",desc="DTC Short Term Fuel Trim - Bank 1"} 1.0
+obd_supported_commands{command="dtc_maf",desc="DTC Air Flow Rate (MAF)"} 1.0
+obd_supported_commands{command="dtc_status",desc="DTC Status since DTCs cleared"} 1.0
+obd_supported_commands{command="dtc_long_o2_trim_b1",desc="DTC Long term secondary O2 trim - Bank 1"} 1.0
+obd_supported_commands{command="dtc_status_drive_cycle",desc="DTC Monitor status this drive cycle"} 1.0
+obd_supported_commands{command="dtc_short_o2_trim_b1",desc="DTC Short term secondary O2 trim - Bank 1"} 1.0
