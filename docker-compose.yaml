@@ -1,0 +1,13 @@
+services:
+  obd:
+    image: joshhsoj1902/node-pi-obd-monitor:latest
+    restart: always
+    privileged: true
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    volumes:
+      - type: bind
+        source: /dev/ttyUSB0
+        target: /dev/ttyUSB0
+    ports:
+      - "8000:8000"

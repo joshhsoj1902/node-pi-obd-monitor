@@ -1,0 +1,15 @@
+services:
+  obd:
+    image: joshhsoj1902/node-pi-obd-monitor:latest
+    restart: always
+    privileged: true
+    devices:
+      - /dev/pts/7
+    volumes:
+      - type: bind
+        source: /dev/pts
+        target: /dev/pts
+    ports:
+      - "8000:8000"
+    environment:
+      - OVERRIDE_DEVICE=/dev/pts/7
