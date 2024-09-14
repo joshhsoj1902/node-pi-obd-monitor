@@ -127,7 +127,11 @@ def connect():
     if connection and connection.status() == obd.utils.OBDStatus.CAR_CONNECTED:
         return True
     log.info('connecting to car...')
-    connection = obd.OBD()
+    if os.getenv("OVERRIDE_DEVICE"):
+        log.info('using override')
+        connection = obd.OBD(os.getenv("OVERRIDE_DEVICE"))
+    else:
+        connection = obd.OBD()
     if connection.status() != obd.utils.OBDStatus.CAR_CONNECTED:
         return False
     metrics = {}
